@@ -1,0 +1,24 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.{html,css,js,vue,json}]
+indent_style = space
+indent_size = 2
+end_of_line = crlf 
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = true
+
+# end_of_line = crlf 또는 lf 옵션이 있음. (개행 관련 설정) crlf 는, 리눅스관련 개행이라고 함
+# insert_final_newline 는, 마지막 개행 관련 설정이라고 함. 언어마다, 마지막 개행이 없으면,
+# 코드 들이 섞여서, 작동을 안 할수 있어서 하는 설정이라고 한다.
