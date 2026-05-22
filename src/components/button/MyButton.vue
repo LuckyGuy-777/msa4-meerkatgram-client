@@ -2,6 +2,13 @@
 
 // 이름 : 데이터타입  지정해주면 된다고함. props
 const props = defineProps({
+  'btnType' : {
+    // props 도 객체 형식으로 줄 수 있다고함. { } 을 사용해서.
+    
+    // 부모에서 버튼타입이 주어지지 않을 경우, button 으로 주어짐. 
+    type: String, 
+    default: 'button'
+  }, // 'button', 'submit', 'reset'
   'size' : String,  // 'big' , 'middle' , 'small'
   'color' : String, // 'black' , 'white' , 'gray'
   'content' : String,
@@ -10,7 +17,7 @@ const props = defineProps({
 
 <template>
   <button
-   type="button" 
+   :type="props.btnType" 
    :class="[props.color, props.size]">
    {{props.content }}</button>
 </template>
