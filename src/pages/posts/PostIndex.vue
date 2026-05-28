@@ -3,6 +3,56 @@ import { onBeforeMount, ref } from 'vue';
 import MyButton from '../../components/button/MyButton.vue';
 import { usePostIndexStore } from '../../store/post/usePostIndexStroe.js';
 
+const postIndexStore = usePostIndexStore();
+
+
+const getNextPage = async () => {
+  await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber)
+}
+
+//라이프 사이클
+onBeforeMount(postIndexStore.getPostPagination);
+onBeforeMount(postIndexStore.clearPostIndex);
+
+</script>
+
+<template>
+<div class="card-container">
+  <!-- testList 이미지 들을, v-for 반복문으로 출력 -->
+  <div
+    class="card"
+    v-for="item in postIndexStore.items"
+    :key="item.id"
+    :style="{backgroundImage: `url(${item.image})`}"
+   ></div>
+</div>
+<MyButton
+  v-if="!postIndexStore.isLastPage"
+  :color="'gray'"
+  :size="'big'"
+  :content="'Show more posts Yoonseok'"
+  @click="getNextPage()" 
+/>
+</template>
+
+<style scoped>
+.card-container {
+  padding: 10px;
+  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px , 1fr));
+}
+.card {
+  padding-top: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+}
+</style>
+
+
+
 
 // ------------------스토어로 이관 start---------------------------
 //  
@@ -58,50 +108,3 @@ import { usePostIndexStore } from '../../store/post/usePostIndexStroe.js';
 // 어떤 문제가 생기면, 스토어 부분을 보면된다고함
 
 // 단순히 호출을 해주는 코드들.
-
-const postIndexStore = usePostIndexStore();
-
-
-const getNextPage = async () => {
-  await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber)
-}
-
-//라이프 사이클
-onBeforeMount(postIndexStore.getPostPagination);
-
-</script>
-
-<template>
-<div class="card-container">
-  <!-- testList 이미지 들을, v-for 반복문으로 출력 -->
-  <div
-    class="card"
-    v-for="item in postIndexStore.items"
-    :key="item.id"
-    :style="{backgroundImage: `url(${item.image})`}"
-   ></div>
-</div>
-<MyButton
-  v-if="!postIndexStore.isLastPage"
-  :color="'gray'"
-  :size="'big'"
-  :content="'Show more posts Yoonseok'"
-  @click="getNextPage()" 
-/>
-</template>
-
-<style scoped>
-.card-container {
-  padding: 10px;
-  gap: 10px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px , 1fr));
-}
-.card {
-  padding-top: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  border-radius: 10px;
-}
-</style>

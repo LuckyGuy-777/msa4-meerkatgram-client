@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import MyButton from '../../components/button/MyButton.vue';
-import { useMyErrorStore } from '../../store/error/useMyErrorStroe';
+import { useMyErrorStore } from '../../store/error/useMyErrorStore';
 
 
 const router = useRouter();

@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import myAxios from "../../api/myAxios.js";
-import { useMyErrorStore } from "../error/useMyErrorStroe.js";
+import { useMyErrorStore } from "../error/useMyErrorStore.js";
 
 
 // store (피니아) : 는 중앙 집중형 관리 이다.
-// 누가 잘못 조작을 하고 있는지 잘 모르니 한 곳에 모아서 관리하자 라는 의미
 
-// 관습적으로 네이밍 전략 : use+기능명+스토어 -> 이것은 스토어 구나 인식을 한다고함
-// 인수는, 1, 내부적으로 사용할 이름, 2. 콜백함수. 마지막에 내가만든 함수를 리턴해줘야함
 export const usePostIndexStore = defineStore('postIndex', () => {
   // 1. state (ref)
   // 다른 페이지에 갔다가 와도, 이전페이지 정보를, 유지시켜줄 수 있음
@@ -28,6 +25,12 @@ export const usePostIndexStore = defineStore('postIndex', () => {
   // 비동기처리(서버와 통신하는 함수) 는, store 쪽에 있어야함.
   // 나중에 pinia 로 분리 시킨다고 한다.
   // page에 값이 전달 되지 않으면, page는, 1로 자동설정됨.
+
+  const clearPostIndex = () => {
+    items.value = [];
+    isLastPage.value = false;
+    currentPage.value = 0;
+  }
 
 
   const getPostPagination= async (page = 1) => {
@@ -74,10 +77,49 @@ export const usePostIndexStore = defineStore('postIndex', () => {
     getNextPageNumber,
 
     // actions
+    clearPostIndex,
     getPostPagination,
   }
 
 });
 
 
-export default usePostIndexStore;
+/**
+ * 
+ * 
+ * 
+// store (피니아) : 는 중앙 집중형 관리 이다.
+// 누가 잘못 조작을 하고 있는지 잘 모르니 한 곳에 모아서 관리하자 라는 의미
+
+// 관습적으로 네이밍 전략 : use+기능명+스토어 -> 이것은 스토어 구나 인식을 한다고함
+// 인수는, 1, 내부적으로 사용할 이름, 2. 콜백함수. 마지막에 내가만든 함수를 리턴해줘야함
+ * 
+ * 
+ * 
+ *   const clearPostIndex = () => {
+    items.value = [];
+    isLastPage.value = false;
+    currentPage.value = 0;
+  } 
+    state 초기값으로 세팅하는 함수
+ *   
+
+
+    
+  return {
+    // state
+    items,
+    isLastPage,
+
+    // getters
+    getNextPageNumber,
+
+    // actions
+    clearPostIndex,
+    getPostPagination,
+  }
+
+  피니아는, 리턴으로, 위 처럼 프로퍼티 들이나, 콜백들을
+  리턴해줘야함
+
+ */  

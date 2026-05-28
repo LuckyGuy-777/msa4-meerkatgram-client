@@ -6,6 +6,13 @@ const myAxios = axios.create({
   // Axios 호출시, url 가장 앞에 자동으로 연결해서 동작함.
   baseURL: import.meta.env.VITE_API_BASE_URL,
 
+
+  headers: {
+    'Content-Type': 'application/json',
+  },
+
+
+
  // 크로스 도메인 에 요청을 보낼때,
  // credential 정보를 담아서 보낼지 여부를 설정
  // credential 정보 : cookies, header Authorization 항목 등..
@@ -25,3 +32,7 @@ const myAxios = axios.create({
 
 // myAxios 를 사용해야함
 export default myAxios;
+
+
+
+//  'Content-Type': 'applicaton/json', 기본적으로 리퀘스트바디에 담겨온 타입이, json 데이터
