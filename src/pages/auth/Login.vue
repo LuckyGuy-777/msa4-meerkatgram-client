@@ -5,6 +5,7 @@ import MyInput from '../../components/input/MyInput.vue';
 import MyStrikeThroughBehindWord from '../../components/decoration/MyStrikeThroughBehindWord.vue';
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import { useRouter } from 'vue-router';
+import loginValidator from '../../util/validator/domain/auth/loginValidator.js';
 
 const authStore = useAuthStore();
 const loginform = reactive({
@@ -15,8 +16,19 @@ const loginform = reactive({
 const router = useRouter();
 
 const handleSubmit = async() => {
-  await authStore.login(loginform);
-  router.replace('/posts') 
+  // 유효성 검사
+  const resultValidationEmail = loginValidator.email(loginform.email);
+  const resultValidationPassword = loginValidator.password(loginform.password);
+
+  // 이메일, 패스워드 유효성검사가 정상일때 (빈문자열)
+  if(!resultValidationEmail && !resultValidationPassword) {
+    await authStore.login(loginform);
+    router.replace('/posts')
+  }else{
+    // 유효성 검사 실패패턴
+    alert(`${resultValidationEmail}\n${resultValidationPassword}`);
+  }
+  
 }
 
 </script>

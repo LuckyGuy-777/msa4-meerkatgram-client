@@ -45,8 +45,27 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+
+  const reissue = async () => {
+    try {
+      const url = '/api/reissue-token';
+      const res = await myAxios.post(url);
+
+      const data = res.data.data;
+      accessToken.value = data.accessToken;
+      userInfo.value = data.user;
+      isLoggedIn.value = true;
+    } catch (error) {
+      clearAuthStore();
+      throw error;
+    }
+  }
+
+
   // 리턴을 해줘야, 피니아의 값들을 다른 클래스에서 쓸 수 있다.
   // state, 게터, 액션 전부 각각 리턴할 수 있다.
+  //       const url = '/api/reissue-token';
+  //       const res = await myAxios.post(url); 는, 백엔드에서 url을 이처럼 주기 때문이다.
 
   return {
     // state
@@ -59,9 +78,12 @@ export const useAuthStore = defineStore('authStore', () => {
 
     // action
     login,
+    reissue,
   }
 
 })
+
+
 
 
 
@@ -101,4 +123,6 @@ export const useAuthStore = defineStore('authStore', () => {
 })      백엔드와 통신관련 코드.
         E01 에러가 났을때에 대한 처리
 
+
+        reissue 를 리턴 해줘야함.
  */
