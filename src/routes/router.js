@@ -4,6 +4,8 @@ import MyError from "../pages/errors/MyError.vue";
 import Login from "../pages/auth/Login.vue";
 import { useAuthStore } from "../store/auth/useAuthStore.js";
 import { isAllWhitespace } from "@vue/compiler-core";
+import PostShow from "../pages/posts/PostShow.vue";
+import Registration from "../pages/auth/Registration.vue";
 
 
 // 이동할 페이지가 인증이 필요한지 아닌지
@@ -33,12 +35,23 @@ const routes = [
     meta : setMeta(false,true)
   },
 
+  // 회원가입 관련
+  {
+    path : '/registration',
+    component : Registration,
+    meta : setMeta(false, true),
+  },
 
   // 게시글 관련
   {
     path: '/posts',
     component: PostIndex,
     meta: setMeta(false, false)
+  },
+  {
+    path : '/posts/:id',
+    component: PostShow,
+    meta: setMeta(true,false),
   },
 ];
 

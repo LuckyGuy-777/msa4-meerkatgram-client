@@ -10,12 +10,25 @@ const authStore = useAuthStore();
 
 // useAuthStore(); 자동완성 안됨
 
+// Sign in, Sign Up 버튼 누르면,
+// 해당페이지로 이동하는 기능
+
 const redirectMain = () => {
   router.push('/')
 }
 
 const redirectLogin= () => {
   router.push('/login')
+}
+
+
+const logout = async () => {
+  await authStore.logout();
+  router.replace('/');
+}
+
+const redirectRegistration = () => {
+  router.push('/registration');
 }
 
 </script>
@@ -35,6 +48,7 @@ const redirectLogin= () => {
        />
       <MyButton
        v-if="!authStore.isLoggedIn"
+       @click="redirectRegistration()"
        :content="'Sign Up'"
        :color="'white'"
        :size="'small'"
@@ -46,6 +60,7 @@ const redirectLogin= () => {
        :content="'Logout'"
        :color="'black'"
        :size="'small'"
+       @click="logout()"
        />
     </div>
   </div>
