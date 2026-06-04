@@ -74,6 +74,19 @@ export const useAuthStore = defineStore('authStore', () => {
 
   }
 
+  const registration =  async (data) => {
+    try{
+      const url = '/api/registration';
+
+      await myAxios.post(url,data);
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
 
   // 리턴을 해줘야, 피니아의 값들을 다른 클래스에서 쓸 수 있다.
   // state, 게터, 액션 전부 각각 리턴할 수 있다.
@@ -92,7 +105,9 @@ export const useAuthStore = defineStore('authStore', () => {
     // action
     login,
     reissue,
-    logout
+    logout,
+
+    registration
   }
 
 })
