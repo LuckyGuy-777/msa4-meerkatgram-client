@@ -6,14 +6,18 @@ import MyStrikeThroughBehindWord from '../../components/decoration/MyStrikeThrou
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import { useRouter } from 'vue-router';
 import loginValidator from '../../util/validator/domain/auth/loginValidator.js';
+import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
 
+
+
+const router = useRouter();
 const authStore = useAuthStore();
+const myErrorStore = useMyErrorStore();
 const loginform = reactive({
   email: '',
   password: '',
 })
 
-const router = useRouter();
 
 const handleSubmit = async() => {
   // 유효성 검사
@@ -22,8 +26,22 @@ const handleSubmit = async() => {
 
   // 이메일, 패스워드 유효성검사가 정상일때 (빈문자열)
   if(!resultValidationEmail && !resultValidationPassword) {
-    await authStore.login(loginform);
-    router.replace('/posts')
+    // 유효성검사 통과 패턴
+    try {
+      await authStore.login(loginform);
+      router.replace('/posts')      
+    } catch (error) {
+
+      if(error.response){
+        if(error.response.data.code === 'E01') {
+          alert(error.response.data.data);
+          return;
+        }
+      }
+      myErrorStore.setErrorInfo(error);
+      router.replace('/error')
+    }
+
   }else{
     // 유효성 검사 실패패턴
     alert(`${resultValidationEmail}\n${resultValidationPassword}`);

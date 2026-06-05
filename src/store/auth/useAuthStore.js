@@ -34,14 +34,9 @@ export const useAuthStore = defineStore('authStore', () => {
 
     } catch (error) {
       console.error(error);
-      if(error.response){
-        if(error.response.data.code === 'E01') {
-          alert(error.response.data.data);
-          return;
-        }
-      }
-      
-      useMyErrorStore().setErrorInfo(error);
+
+      // 발생한 에러를 반환함(로그인 시에)
+      throw error;
     }
   }
 

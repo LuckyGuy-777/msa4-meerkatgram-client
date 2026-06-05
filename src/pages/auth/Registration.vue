@@ -7,11 +7,13 @@ import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import { useRouter } from 'vue-router';
 import registrationValidator from '../../util/validator/domain/auth/registrationValidator.js';
 import { password } from '../../util/validator/rule/userRule.js';
+import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
 
 
 const router = useRouter();
 const fileStore = useFileStore();
 const authStore = useAuthStore();
+const myErrorStore = useMyErrorStore();
 
 const preview = ref(null); // 파일 경로가 담김("문자열")
 const selectedFile = ref(null); // 유저가 올린 "파일객체" 가 저장되는 상태변수
@@ -60,8 +62,8 @@ const handleSubmit = async () => {
     }else if(data.code ==='E21') {
       alert('잘못된 양식입니다');
     }else {
-      alert("오류가 발생했습니다\n잠시후 다시 시도해주세요.");
-      router.replace('/')
+      myErrorStore.setErrorInfo(error);
+      router.replace('/error')
     } 
   }
 
