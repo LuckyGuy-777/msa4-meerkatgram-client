@@ -5,6 +5,8 @@ import MyInput from '../../components/input/MyInput.vue';
 import { useFileStore } from '../../store/file/useFileStore.js';
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import { useRouter } from 'vue-router';
+import registrationValidator from '../../util/validator/domain/auth/registrationValidator.js';
+import { password } from '../../util/validator/rule/userRule.js';
 
 
 const router = useRouter();
@@ -24,15 +26,35 @@ const registrationData = reactive({
 
 
 const handleSubmit = async () => {
+  // 유효성 검사
+  const validationList = [
+    registrationValidator.email(registrationData.email),
+    registrationValidator.password(registrationData.password),
+    registrationValidator.passwordChk(registrationData.password,registrationData.passwordChk),
+    registrationValidator.nick(registrationData.nick),
+    registrationValidator.profile(registrationData.profile),
+  ];
+
+  // val의 값이 비어있지 않은값만 리턴
+  // join('원하는 구분자') 은, 특정 구분자를 기준으로 문장을 합쳐 준다
+  
+  // 유효성 검사에서 걸린 요소들을 값으로 가짐
+  const errorList = validationList.filter(val => val);
+
+  // 유효성 검사들을 반복문으로 alert 창으로 띄움
+  if(errorList.length > 0){
+    alert(errorList.join('\n'))
+
+    //유효성 검사에서 걸리면, if 문 다음 처리가 진행되지 않도록, return 처리
+    return;
+  }
 
   try {
-      await authStore.registration(registrationData);
-      alert("회원가입에 성공했습니다")
-      router.replace('/login');
-  
+    await authStore.registration(registrationData);
+    alert("회원가입에 성공했습니다")
+    router.replace('/login');
   } catch (error) {
-      console.error(error);
-    const data = error.response.data.data;
+    const data = error.response.data;
     if(data.code === 'E11'){
       alert(data.data);
     }else if(data.code ==='E21') {
@@ -212,3 +234,6 @@ await authStore.login(loginform);  로그인할때, 로그인 폼을 줌
   인풋 박스와, 로그인 버튼 사이의 or 부분
 
 -->
+
+
+<!--  filter 메소드 : 조건에 맞는것만 가져오는것. -->
