@@ -85,6 +85,23 @@ export const profile = (val) => {
   return '';
 }
 
+export const img = (val) => {
+
+  if(!val) {
+    return '이미지는 필수 입니다.';
+  }
+
+  return '';
+}
+
+export const content_input = (val) => {
+  if(!val) {
+    return '내용입력이 필요합니다..';
+  }
+
+  return '';
+}
+
 
 
 

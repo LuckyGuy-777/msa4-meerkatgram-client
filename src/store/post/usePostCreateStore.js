@@ -4,19 +4,26 @@ import myAxios from "../../api/myAxios.js";
 import { useMyErrorStore } from "../error/useMyErrorStore.js";
 
 
-// store (피니아) : 는 중앙 집중형 관리 이다.
 
-export const usePostIndexStore = defineStore('postCreate', () => {
+
+export const usePostCreateStore = defineStore('postCreate', () => {
   // 1. state (ref)
   // 다른 페이지에 갔다가 와도, 이전페이지 정보를, 유지시켜줄 수 있음
 
-  const items = ref([]);
-  const isLastPage = ref(false);
-  const currentPage = ref(0);
+  const content_input = ref('');
+  const preview = ref(null); // 파일 경로가 담김("문자열")
+  const selectedFile = ref(null); // 유저가 올린 "파일객체" 가 저장되는 상태변수
+
+  const registrationData = reactive({
+    email: '',
+    password: '',
+    passwordChk: '',
+    nick : '',
+    profile : '',
+  }) 
 
   // 2. getter (computed) :
   // computed 는, 연산한 결과를 미리 메모리에 올려둬서, 좀더 빨리 결과를 가져올 수 있다.
-  const getNextPageNumber = computed(() => currentPage.value +1);
 
 
 
@@ -25,12 +32,6 @@ export const usePostIndexStore = defineStore('postCreate', () => {
   // 비동기처리(서버와 통신하는 함수) 는, store 쪽에 있어야함.
   // 나중에 pinia 로 분리 시킨다고 한다.
   // page에 값이 전달 되지 않으면, page는, 1로 자동설정됨.
-
-  const clearPostIndex = () => {
-    items.value = [];
-    isLastPage.value = false;
-    currentPage.value = 0;
-  }
 
 
   const getPostPagination= async (page = 1) => {
