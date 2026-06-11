@@ -1,8 +1,13 @@
 <script setup>
+import router from '../routes/router';
 import { useAuthStore } from '../store/auth/useAuthStore';
 
 // 유저정보 가지고 있음
 const authStore = useAuthStore();
+
+const newPost = () => {
+  router.push('/posts/new')
+}
 
 </script>
 
@@ -32,6 +37,7 @@ const authStore = useAuthStore();
       <div
        class="bg-image-square redirect-icon-posts-create"
        style="background-image: url('/icons/plus-sign.png');"
+       @click="newPost()"
        ></div>
       <div
        class="bg-image-square redirect-icon-posts-info"
