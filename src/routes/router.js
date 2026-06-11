@@ -6,6 +6,7 @@ import { useAuthStore } from "../store/auth/useAuthStore.js";
 import { isAllWhitespace } from "@vue/compiler-core";
 import PostShow from "../pages/posts/PostShow.vue";
 import Registration from "../pages/auth/Registration.vue";
+import PostNew from "../pages/posts/PostNew.vue";
 
 
 // 이동할 페이지가 인증이 필요한지 아닌지
@@ -51,6 +52,11 @@ const routes = [
   {
     path : '/posts/:id',
     component: PostShow,
+    meta: setMeta(true,false),
+  },
+   {
+    path : '/posts/new',
+    component: PostNew,
     meta: setMeta(true,false),
   },
   // 에러 관련
